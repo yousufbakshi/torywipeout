@@ -1,65 +1,81 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import hexData from "../assets/constituencies.hexjson";
 import "./ConstituencyList.css";
 
-interface ConstituencyListProps {
-  constituencies: { id: string; name: string }[];
-  updateCounts: (win: number, loss: number) => void;
+interface ConstituencyProps {
+  onSelectionChange: (type: string, selected: boolean) => void;
+  showIncomplete: boolean;
+  searchQuery: string;
 }
 
-const ConstituencyList: React.FC<ConstituencyListProps> = ({
-  constituencies,
-  updateCounts,
+const ConstituencyList: React.FC<ConstituencyProps> = ({
+  onSelectionChange,
+  showIncomplete,
+  searchQuery,
 }) => {
-  const [selectedWins, setSelectedWins] = useState<string[]>([]);
-  const [selectedLosses, setSelectedLosses] = useState<string[]>([]);
+  const constituencies = Object.keys(hexData.hexes).map(
+    (key) => hexData.hexes[key].n
+  );
+  constituencies.sort();
 
-  const handleWinClick = (id: string) => {
-    setSelectedWins((prev) =>
-      prev.includes(id) ? prev.filter((w) => w !== id) : [...prev, id]
-    );
-    if (selectedLosses.includes(id)) {
-      setSelectedLosses((prev) => prev.filter((l) => l !== id));
-    }
-    updateCounts(selectedWins.length, selectedLosses.length);
-  };
+  const [selections, setSelections] = useState<{ [key: string]: string }>({});
+  const [filteredConstituencies, setFilteredConstituencies] =
+    useState<string[]>(constituencies);
 
-  const handleLossClick = (id: string) => {
-    setSelectedLosses((prev) =>
-      prev.includes(id) ? prev.filter((l) => l !== id) : [...prev, id]
+  useEffect(() => {
+    const query = searchQuery.toLowerCase();
+    const filtered = constituencies.filter((constituency) =>
+      constituency.toLowerCase().includes(query)
     );
-    if (selectedWins.includes(id)) {
-      setSelectedWins((prev) => prev.filter((w) => w !== id));
+    if (showIncomplete) {
+      setFilteredConstituencies(
+        filtered.filter((constituency) => !selections[constituency])
+      );
+    } else {
+      setFilteredConstituencies(filtered);
     }
-    updateCounts(selectedWins.length, selectedLosses.length);
+  }, [showIncomplete, selections, searchQuery]);
+
+  const handleSelection = (constituency: string, type: string) => {
+    const newSelections = { ...selections };
+    if (newSelections[constituency] === type) {
+      delete newSelections[constituency];
+      onSelectionChange(type, false);
+    } else {
+      if (newSelections[constituency]) {
+        onSelectionChange(newSelections[constituency], false);
+      }
+      newSelections[constituency] = type;
+      onSelectionChange(type, true);
+    }
+    setSelections(newSelections);
   };
 
   return (
     <div className="constituency-list">
-      {constituencies.map((constituency) => (
+      {filteredConstituencies.map((constituency) => (
         <div
-          key={constituency.id}
-          className={`constituency-card ${
-            selectedWins.includes(constituency.id) ? "win" : ""
-          } ${selectedLosses.includes(constituency.id) ? "loss" : ""}`}
+          key={constituency}
+          className={`constituency-card ${selections[constituency] || ""}`}
         >
-          <div className="constituency-info">
-            <strong>{constituency.name}</strong>
-            <span>SURNAME, firstname</span>
-          </div>
-          <div className="buttons">
-            <button
-              className="win-button"
-              onClick={() => handleWinClick(constituency.id)}
-            >
-              TORY WIN
-            </button>
-            <button
-              className="loss-button"
-              onClick={() => handleLossClick(constituency.id)}
-            >
-              TORY LOSS
-            </button>
-          </div>
+          <div className="constituency-name">{constituency}</div>
+          <div className="candidate-name">SURNAME, firstname</div>
+          <button
+            className={`win ${
+              selections[constituency] === "win" ? "selected" : ""
+            }`}
+            onClick={() => handleSelection(constituency, "win")}
+          >
+            TORY WIN
+          </button>
+          <button
+            className={`loss ${
+              selections[constituency] === "loss" ? "selected" : ""
+            }`}
+            onClick={() => handleSelection(constituency, "loss")}
+          >
+            TORY LOSS
+          </button>
         </div>
       ))}
     </div>

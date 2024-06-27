@@ -1,11 +1,12 @@
 .App {
   display: flex;
   height: 100vh;
+  width: 100vw;
 }
 
 .sidebar {
-  width: 40%;
-  padding: 20px;
+  width: 40vw;
+  padding: 10px;
   background-color: #f0f0f0;
 }
 
@@ -15,19 +16,8 @@
   height: 100%;
 }
 
-.logo {
-  margin-bottom: 20px;
-}
-
-.search-bar {
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
 .main {
-  width: 60%;
+  flex: 1;
   padding: 20px;
   background-color: #f5f5f5;
   display: flex;
@@ -36,24 +26,66 @@
   justify-content: center;
 }
 
-.prediction-summary {
+.search-bar {
   display: flex;
-  gap: 10px;
+  margin-bottom: 10px;
 }
 
-.win-count, .loss-count {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
+.search-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+  font-size: 16px;
+}
+
+.search-button {
+  width: 40px;
+  height: 40px;
+  background-color: #007bff;
+  border: 1px solid #007bff;
+  border-radius: 0 5px 5px 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.win-count {
+.search-button img.search-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.incomplete-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.picks-complete {
+  margin-top: auto;
+}
+
+.results {
+  display: flex;
+  gap: 20px;
+}
+
+.results-box {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  text-align: center;
+}
+
+.results-box.win {
   background-color: #007bff;
   color: white;
 }
 
-.loss-count {
+.results-box.loss {
   background-color: #6c757d;
   color: white;
 }

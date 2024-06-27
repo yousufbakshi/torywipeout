@@ -1,51 +1,51 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import SearchBar from "./components/SearchBar";
 import ConstituencyList from "./components/ConstituencyList";
 import "./App.css";
-import hexData from "./assets/constituencies.hexjson";
 
 const App: React.FC = () => {
+  const [showIncomplete, setShowIncomplete] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [winCount, setWinCount] = useState(0);
   const [lossCount, setLossCount] = useState(0);
-  const [constituencies, setConstituencies] = useState<
-    { id: string; name: string }[]
-  >([]);
 
-  useEffect(() => {
-    const constituencyList = Object.entries(hexData.hexes).map(
-      ([id, data]: [string, any]) => ({
-        id,
-        name: data.n,
-      })
-    );
-    setConstituencies(constituencyList);
-  }, []);
-
-  const updateCounts = (win: number, loss: number) => {
-    setWinCount(win);
-    setLossCount(loss);
+  const handleSelectionChange = (type: string, selected: boolean) => {
+    if (type === "win") {
+      setWinCount(winCount + (selected ? 1 : -1));
+    } else if (type === "loss") {
+      setLossCount(lossCount + (selected ? 1 : -1));
+    }
   };
 
   return (
     <div className="App">
       <div className="sidebar">
         <div className="sidebar-wrapper">
-          <img src="/logo.png" alt="Logo" className="logo" />
-          <input
-            type="text"
-            className="search-bar"
-            placeholder="Search for a constituency or candidate"
-          />
+          <h1>My Tory Wipeout</h1>
+          <SearchBar onSearch={setSearchQuery} />
+          <label className="incomplete-label">
+            <input
+              type="checkbox"
+              checked={showIncomplete}
+              onChange={() => setShowIncomplete(!showIncomplete)}
+            />
+            Show Incomplete Races
+          </label>
           <ConstituencyList
-            constituencies={constituencies}
-            updateCounts={updateCounts}
+            onSelectionChange={handleSelectionChange}
+            showIncomplete={showIncomplete}
+            searchQuery={searchQuery}
           />
+          <div className="picks-complete">{`${
+            winCount + lossCount
+          }/650 picks complete`}</div>
         </div>
       </div>
       <div className="main">
         <h2>My Tory Wipeout Prediction</h2>
-        <div className="prediction-summary">
-          <button className="win-count">TORY WINS: {winCount}</button>
-          <button className="loss-count">TORY LOSSES: {lossCount}</button>
+        <div className="results">
+          <div className="results-box win">{`TORY WINS: ${winCount}`}</div>
+          <div className="results-box loss">{`TORY LOSSES: ${lossCount}`}</div>
         </div>
       </div>
     </div>

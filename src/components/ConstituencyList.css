@@ -1,49 +1,64 @@
 .constituency-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     overflow-y: auto;
-    flex-grow: 1;
+    height: calc(100vh - 200px);
   }
   
   .constituency-card {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 10px;
+    border-radius: 5px;
     background-color: white;
   }
   
-  .constituency-info {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .win-button, .loss-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .win-button {
+  .constituency-card.win {
     background-color: #007bff;
     color: white;
   }
   
-  .loss-button {
+  .constituency-card.loss {
     background-color: #6c757d;
     color: white;
   }
   
-  .constituency-card.win {
-    border-color: #007bff;
-    background-color: #e0f7ff;
+  .constituency-name {
+    font-weight: bold;
+    margin-bottom: 5px;
   }
   
-  .constituency-card.loss {
-    border-color: #6c757d;
-    background-color: #f0f0f0;
+  .candidate-name {
+    margin-bottom: 10px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button.win {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  button.loss {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  button.winselected {
+    background-color: #007bff;
+  }
+
+  button.lossselected {
+    background-color: #6c757d;
   }
   

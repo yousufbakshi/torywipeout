@@ -1,47 +1,31 @@
 import React, { useState } from "react";
+import "./SearchBar.css";
+import searchIcon from "../assets/search-icon.png";
 
 interface SearchBarProps {
-  onSearch: (searchTerm: string) => void;
+  onSearch: (query: string) => void;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [query, setQuery] = useState("");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const term = event.target.value;
-    setSearchTerm(term);
-    onSearch(term);
+    const newQuery = event.target.value;
+    setQuery(newQuery);
+    onSearch(newQuery);
   };
 
   return (
-    <div
-      style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}
-    >
+    <div className="search-bar">
       <input
         type="text"
-        value={searchTerm}
-        onChange={handleInputChange}
+        className="search-input"
         placeholder="Search for a constituency or candidate"
-        style={{
-          flexGrow: 1,
-          padding: "0.5rem",
-          borderRadius: "4px",
-          border: "1px solid #ced4da",
-          color: "#000",
-          backgroundColor: "#fff",
-        }}
+        value={query}
+        onChange={handleInputChange}
       />
-      <button
-        style={{
-          padding: "0.5rem",
-          backgroundColor: "#007bff",
-          color: "#fff",
-          border: "none",
-          borderRadius: "4px",
-          marginLeft: "0.5rem",
-        }}
-      >
-        🔍
+      <button type="button" className="search-button">
+        <img src={searchIcon} alt="Search" className="search-icon" />
       </button>
     </div>
   );
