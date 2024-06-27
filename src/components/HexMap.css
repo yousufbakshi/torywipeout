@@ -1,0 +1,32 @@
+/* src/components/HexMap.css */
+.hexagon {
+    fill: lightgrey; /* Default light grey */
+    stroke: #000;
+    stroke-width: 0.5;
+    cursor: pointer;
+  }
+  
+  .selected {
+    fill: #6c757d; /* Grey */
+  }
+  
+  .green {
+    fill: #28a745; /* Green */
+  }
+  
+  .tory-loss {
+    fill: #373737; /* Tory Loss Color */
+  }
+  
+  .blue {
+    fill: #007bff; /* Blue */
+  }
+  
+  text {
+    font-size: 0.15em;
+    pointer-events: none;
+    fill: white; /* Text color */
+    stroke: black; /* Outline color */
+    stroke-width: 0.5px; /* Outline width */
+  }
+  
