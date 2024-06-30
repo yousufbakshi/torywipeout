@@ -2,6 +2,7 @@
   display: flex;
   height: 100vh;
   width: 100vw;
+  flex-direction: row;
 }
 
 .sidebar {
@@ -24,6 +25,69 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+/* Media query for screens with max-width of 768px */
+@media (max-width: 768px) {
+  .App {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .sidebar {
+    width: 100%;
+    order: 2;
+    padding: 0;
+  }
+
+  .main {
+    width: 100%;
+    order: 1;
+    padding: 0;
+    text-align: center;
+  }
+
+  .results {
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .sidebar-wrapper {
+    align-items: center;
+  }
+
+  h1 {
+    text-align: center;
+    width: 100%;
+  }
+
+  .search-bar {
+    justify-content: center;
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .search-input {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .constituency-list {
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .incomplete-label-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .picks-complete {
+    align-self: center;
+    margin-top: 5px;
+    text-align: center;
+  }
 }
 
 .search-bar {
@@ -56,14 +120,21 @@
   height: 20px;
 }
 
+.incomplete-label-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
 .incomplete-label {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
 }
 
 .picks-complete {
-  margin-top: auto;
+  color: #000000;
 }
 
 .results {

@@ -9,6 +9,9 @@ const App: React.FC = () => {
   const [winCount, setWinCount] = useState(0);
   const [lossCount, setLossCount] = useState(0);
 
+  // Assuming you have the list of constituencies available in this component
+  const totalConstituencies = 650; // Replace with the actual number of constituencies
+
   const handleSelectionChange = (type: string, selected: boolean) => {
     if (type === "win") {
       setWinCount(winCount + (selected ? 1 : -1));
@@ -23,22 +26,24 @@ const App: React.FC = () => {
         <div className="sidebar-wrapper">
           <h1>My Tory Wipeout</h1>
           <SearchBar onSearch={setSearchQuery} />
-          <label className="incomplete-label">
-            <input
-              type="checkbox"
-              checked={showIncomplete}
-              onChange={() => setShowIncomplete(!showIncomplete)}
-            />
-            Show Incomplete Races
-          </label>
+          <div className="incomplete-label-wrapper">
+            <label className="incomplete-label">
+              <input
+                type="checkbox"
+                checked={showIncomplete}
+                onChange={() => setShowIncomplete(!showIncomplete)}
+              />
+              Show Incomplete Races
+            </label>
+            <div className="picks-complete">{`${
+              winCount + lossCount
+            }/${totalConstituencies} picks complete`}</div>
+          </div>
           <ConstituencyList
             onSelectionChange={handleSelectionChange}
             showIncomplete={showIncomplete}
             searchQuery={searchQuery}
           />
-          <div className="picks-complete">{`${
-            winCount + lossCount
-          }/650 picks complete`}</div>
         </div>
       </div>
       <div className="main">
