@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import hexData from "../assets/constituencies.hexjson";
+import votePredictions from "../assets/votepredictions.json"; // Import the JSON file
 import "./ConstituencyList.css";
 
 interface ConstituencyProps {
@@ -24,9 +25,18 @@ const ConstituencyList: React.FC<ConstituencyProps> = ({
 
   useEffect(() => {
     const query = searchQuery.toLowerCase();
-    const filtered = constituencies.filter((constituency) =>
-      constituency.toLowerCase().includes(query)
-    );
+    const filtered = constituencies.filter((constituency) => {
+      const candidate = votePredictions.find(
+        (prediction) => prediction.post_label === constituency
+      );
+      const candidateName = candidate
+        ? candidate.person_name.toLowerCase()
+        : "";
+      return (
+        constituency.toLowerCase().includes(query) ||
+        candidateName.includes(query)
+      );
+    });
     if (showIncomplete) {
       setFilteredConstituencies(
         filtered.filter((constituency) => !selections[constituency])
@@ -51,6 +61,14 @@ const ConstituencyList: React.FC<ConstituencyProps> = ({
     setSelections(newSelections);
   };
 
+  // Map constituency names to candidate names
+  const getCandidateName = (constituency: string) => {
+    const candidate = votePredictions.find(
+      (prediction) => prediction.post_label === constituency
+    );
+    return candidate ? candidate.person_name : "Unknown Candidate";
+  };
+
   return (
     <div className="constituency-list">
       {filteredConstituencies.map((constituency) => (
@@ -59,7 +77,7 @@ const ConstituencyList: React.FC<ConstituencyProps> = ({
           className={`constituency-card ${selections[constituency] || ""}`}
         >
           <div className="constituency-name">{constituency}</div>
-          <div className="candidate-name">SURNAME, firstname</div>
+          <div className="candidate-name">{getCandidateName(constituency)}</div>
           <button
             className={`win ${
               selections[constituency] === "win" ? "selected" : ""
