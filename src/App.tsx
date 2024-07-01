@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import ConstituencyList from "./components/ConstituencyList";
+import HexMap from "./components/HexMap"; // Import the new component
 import "./App.css";
 
 const App: React.FC = () => {
@@ -9,7 +10,6 @@ const App: React.FC = () => {
   const [winCount, setWinCount] = useState(0);
   const [lossCount, setLossCount] = useState(0);
 
-  // Assuming you have the list of constituencies available in this component
   const totalConstituencies = 650; // Replace with the actual number of constituencies
 
   const handleSelectionChange = (type: string, selected: boolean) => {
@@ -51,6 +51,9 @@ const App: React.FC = () => {
         <div className="results">
           <div className="results-box win">{`TORY WINS: ${winCount}`}</div>
           <div className="results-box loss">{`TORY LOSSES: ${lossCount}`}</div>
+        </div>
+        <div className="hexmap-container">
+          <HexMap />
         </div>
       </div>
     </div>

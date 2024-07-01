@@ -1,80 +1,79 @@
 .constituency-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    overflow-y: auto;
-    height: calc(100vh - 200px);
-  }
-  
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  height: calc(100vh - 200px);
+}
+
+.constituency-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  color: #000000;
+  width: calc(100% - 20px); /* Make the card width smaller to accommodate padding */
+  margin: 0 auto; /* Center the cards */
+}
+
+.constituency-card.win {
+  background-color: #007bff;
+  color: white;
+}
+
+.constituency-card.loss {
+  background-color: #6c757d;
+  color: white;
+}
+
+.constituency-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: left;
+  width: 100%;
+}
+
+.candidate-name {
+  margin-bottom: 10px;
+  text-align: left;
+  width: 100%;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+button.win {
+  background-color: #007bff;
+  color: white;
+}
+
+button.loss {
+  background-color: #6c757d;
+  color: white;
+}
+
+button.winselected {
+  background-color: #007bff;
+}
+
+button.lossselected {
+  background-color: #6c757d;
+}
+
+/* Ensure padding is even on smaller screens */
+@media (max-width: 768px) {
   .constituency-card {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: white;
-    color: #000000;
-    width: calc(100% - 20px); /* Make the card width smaller to accommodate padding */
-    margin: 0 auto; /* Center the cards */
+    padding-left: 10px;
+    padding-right: 10px;
   }
-  
-  .constituency-card.win {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .constituency-card.loss {
-    background-color: #6c757d;
-    color: white;
-  }
-  
-  .constituency-name {
-    font-weight: bold;
-    margin-bottom: 5px;
-    text-align: left;
-    width: 100%;
-  }
-  
-  .candidate-name {
-    margin-bottom: 10px;
-    text-align: left;
-    width: 100%;
-  }
-  
-  button {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 5px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-  }
-  
-  button.win {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  button.loss {
-    background-color: #6c757d;
-    color: white;
-  }
-  
-  button.winselected {
-    background-color: #007bff;
-  }
-  
-  button.lossselected {
-    background-color: #6c757d;
-  }
-  
-  /* Ensure padding is even on smaller screens */
-  @media (max-width: 768px) {
-    .constituency-card {
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-  }
-  
+}
