@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import "./HexMap.css"; // Ensure the correct path to your CSS file
 
 interface Prediction {
-  onscode: string;
-  conservativeCandidate: string;
+  post_label: string; // Change to match votepredictions.json
+  person_name: string; // Change to match votepredictions.json
 }
 
 interface HexEvent {
@@ -54,7 +54,7 @@ function HexMap() {
             hexjson: hexjsonData,
             ready: function () {
               // Create a tooltip
-              hex.on("mouseover", function (e: HexEvent) {
+              this.on("mouseover", function (e: HexEvent) {
                 const svg = e.data.hexmap.el;
                 const hexElement = e.target;
                 let tip = svg.querySelector(".tooltip") as HTMLDivElement;
@@ -69,10 +69,10 @@ function HexMap() {
                 const constituencyData = hexjsonData.hexes[constituencyID];
                 const candidate = predictionsData.find(
                   (prediction: Prediction) =>
-                    prediction.onscode === constituencyID
+                    prediction.post_label === constituencyData.n
                 );
                 const candidateName = candidate
-                  ? candidate.conservativeCandidate
+                  ? candidate.person_name
                   : "Unknown";
 
                 // Update contents of tooltip
@@ -87,6 +87,16 @@ function HexMap() {
                   ) + "px";
                 tip.style.top =
                   Math.round(bb.top + bb.height / 2 - bbo.top) + "px";
+                tip.style.display = "block";
+              });
+
+              // Ensure the tooltip hides on mouseout
+              this.on("mouseout", function (e: HexEvent) {
+                const svg = e.data.hexmap.el;
+                const tip = svg.querySelector(".tooltip") as HTMLDivElement;
+                if (tip) {
+                  tip.style.display = "none";
+                }
               });
 
               // Update the hex colours to grey
@@ -102,7 +112,7 @@ function HexMap() {
     initializeHexmap();
   }, []);
 
-  return <div id="hexmap3"></div>;
+  return <div id="hexmap3" className="hexmap-responsive"></div>;
 }
 
 export default HexMap;
